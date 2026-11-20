@@ -17,7 +17,7 @@ const client = new Client({
   ]
 });
 
-const TOKEN = 'MTU3MzQ3Mjg1MjIyMzQ2MzU2Ng.GqsS0_.7gY2aI-E-k0x1J6P1axThbcYWKK5uee4ekw3vM';
+const TOKEN = process.env.DISCORD_TOKEN;
 const CLIENT_ID = '1573472852223463566';
 const GUILD_ID = '1570835193474842727';
 const LOG_CHANNEL_ID = '1570835199472701508';
@@ -42,6 +42,7 @@ const commands = [
 ].map((cmd) => cmd.toJSON());
 
 async function registerCommands() {
+  if (!TOKEN) throw new Error('DISCORD_TOKEN bulunamadi.');
   const rest = new REST({ version: '10' }).setToken(TOKEN);
   await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), {
     body: commands
@@ -175,4 +176,3 @@ http.createServer((req, res) => {
 }).listen(PORT);
 
 client.login(TOKEN);
-                
